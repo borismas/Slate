@@ -170,12 +170,19 @@
       .hero p { animation-delay: .25s; }
       .hero-actions { animation-delay: .35s; }
 
+
+      .sky {
+        position: fixed; inset: 0; z-index: -2; pointer-events: none;
+        opacity: .18; transition: opacity .3s ease;
+      }
+      @media (prefers-color-scheme: dark) { .sky { opacity: .9; } }
+      .sky svg { width: 100%; height: 100%; display: block; }
       .landscape {
-        position: fixed; left: 0; right: 0; bottom: 0; height: 24vh; min-height: 140px;
-        pointer-events: none; z-index: -1; opacity: .16; color: var(--fg);
+        position: fixed; left: 0; right: 0; bottom: 0; height: 34vh; min-height: 200px;
+        pointer-events: none; z-index: -1; opacity: .22; color: var(--fg);
         will-change: transform;
       }
-      @media (prefers-color-scheme: dark) { .landscape { opacity: .28; } }
+      @media (prefers-color-scheme: dark) { .landscape { opacity: .45; } }
       .landscape svg { width: 100%; height: 100%; display: block; }
     </style>
   </head>
@@ -194,8 +201,6 @@
 
       <main id="top">
         <section class="hero">
-          <div class="glow"></div>
-          <div class="glow g2"></div>
           <div class="eyebrow">A quiet place for your notes</div>
           <h1>Notes,<br />without the noise.</h1>
           <p>Slate is a minimal notes app that stays out of your way. Everything is saved on your device, so your notes remain entirely yours.</p>
@@ -278,33 +283,80 @@
 
       <footer class="reveal">
         <span>Slate — made by wtap</span>
-        <span>slate.wtap.online</span>
+        <span>lumen.wtap.online</span>
       </footer>
     </div>
 
-    <div class="landscape" aria-hidden="true">
-      <svg viewBox="0 0 1440 360" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 360 L0 250 L90 190 L180 250 L300 130 L420 230 L540 110 L660 210 L780 140 L900 230 L1020 160 L1140 240 L1260 170 L1440 240 L1440 360 Z" fill="currentColor" opacity=".5"/>
-        <path d="M0 360 L0 290 L120 230 L240 290 L360 200 L480 270 L600 180 L720 260 L840 200 L960 270 L1080 210 L1200 280 L1320 220 L1440 280 L1440 360 Z" fill="currentColor" opacity=".85"/>
-        <g fill="currentColor" opacity=".9">
-          <polygon points="120,285 112,310 128,310"/>
-          <polygon points="160,292 150,320 170,320"/>
-          <polygon points="260,268 250,298 270,298"/>
-          <polygon points="320,275 310,305 330,305"/>
-          <polygon points="470,260 460,290 480,290"/>
-          <polygon points="520,272 510,300 530,300"/>
-          <polygon points="610,255 600,285 620,285"/>
-          <polygon points="700,265 690,295 710,295"/>
-          <polygon points="760,275 750,305 770,305"/>
-          <polygon points="900,260 890,290 910,290"/>
-          <polygon points="980,272 970,300 990,300"/>
-          <polygon points="1100,265 1090,295 1110,295"/>
-          <polygon points="1180,278 1170,308 1190,308"/>
-          <polygon points="1280,270 1270,300 1290,300"/>
-          <polygon points="1340,278 1330,308 1350,308"/>
+    <div class="sky" aria-hidden="true">
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="1180" cy="160" r="34" fill="#d8d8cf" opacity=".75"/>
+        <circle cx="1168" cy="148" r="30" fill="var(--bg)" opacity=".95"/>
+        <g fill="#d8d8cf">
+          <circle cx="120" cy="120" r="1.2" opacity=".8"/>
+          <circle cx="260" cy="80" r="1" opacity=".6"/>
+          <circle cx="420" cy="150" r="1.3" opacity=".7"/>
+          <circle cx="520" cy="60" r="0.9" opacity=".5"/>
+          <circle cx="700" cy="110" r="1.1" opacity=".7"/>
+          <circle cx="820" cy="70" r="1" opacity=".6"/>
+          <circle cx="940" cy="130" r="1.3" opacity=".8"/>
+          <circle cx="1040" cy="90" r="0.9" opacity=".5"/>
+          <circle cx="300" cy="200" r="1" opacity=".6"/>
+          <circle cx="600" cy="180" r="1.2" opacity=".7"/>
+          <circle cx="760" cy="210" r="0.8" opacity=".5"/>
+          <circle cx="900" cy="190" r="1.1" opacity=".7"/>
+          <circle cx="1080" cy="210" r="0.9" opacity=".6"/>
+          <circle cx="1320" cy="120" r="1.2" opacity=".7"/>
+          <circle cx="1380" cy="200" r="1" opacity=".6"/>
+          <circle cx="160" cy="260" r="0.8" opacity=".5"/>
+          <circle cx="480" cy="250" r="1" opacity=".6"/>
+          <circle cx="720" cy="270" r="0.9" opacity=".5"/>
         </g>
       </svg>
     </div>
+    <div class="landscape" aria-hidden="true">
+      <svg viewBox="0 0 1440 420" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Back ridge -->
+        <path d="M0 420 L0 230 L70 170 L150 230 L230 120 L320 210 L400 100 L500 200 L590 90 L690 190 L780 110 L880 200 L970 130 L1070 220 L1160 140 L1260 230 L1350 160 L1440 220 L1440 420 Z" fill="currentColor" opacity=".28"/>
+        <!-- Mid ridge -->
+        <path d="M0 420 L0 280 L80 210 L180 270 L280 170 L380 250 L480 150 L560 240 L660 160 L760 250 L840 180 L940 260 L1040 190 L1140 260 L1220 190 L1320 250 L1440 200 L1440 420 Z" fill="currentColor" opacity=".55"/>
+        <!-- Front ridge -->
+        <path d="M0 420 L0 320 L90 260 L180 315 L260 250 L340 305 L420 240 L500 300 L580 230 L660 290 L740 235 L820 285 L900 240 L980 290 L1060 245 L1140 295 L1220 250 L1300 300 L1380 255 L1440 290 L1440 420 Z" fill="currentColor" opacity=".9"/>
+        <!-- Tree clusters on front ridge -->
+        <g fill="currentColor" opacity=".95">
+          <polygon points="95,298 85,325 105,325"/>
+          <polygon points="105,295 95,325 115,325"/>
+          <polygon points="185,300 174,328 196,328"/>
+          <polygon points="255,268 244,296 266,296"/>
+          <polygon points="270,266 259,296 281,296"/>
+          <polygon points="285,270 274,298 296,298"/>
+          <polygon points="415,255 404,283 426,283"/>
+          <polygon points="430,252 419,282 441,282"/>
+          <polygon points="495,308 484,336 506,336"/>
+          <polygon points="570,245 559,273 581,273"/>
+          <polygon points="585,242 574,272 596,272"/>
+          <polygon points="600,246 589,274 611,274"/>
+          <polygon points="735,250 724,278 746,278"/>
+          <polygon points="750,248 739,278 761,278"/>
+          <polygon points="815,298 804,326 826,326"/>
+          <polygon points="920,255 909,283 931,283"/>
+          <polygon points="935,253 924,281 946,281"/>
+          <polygon points="950,257 939,285 961,285"/>
+          <polygon points="1055,260 1044,288 1066,288"/>
+          <polygon points="1135,308 1124,336 1146,336"/>
+          <polygon points="1215,265 1204,293 1226,293"/>
+          <polygon points="1295,312 1284,340 1306,340"/>
+          <polygon points="1375,270 1364,298 1386,298"/>
+        </g>
+        <!-- Snow caps on a few peaks -->
+        <g fill="currentColor" opacity=".55">
+          <polygon points="226,130 230,120 234,130"/>
+          <polygon points="396,108 400,100 404,108"/>
+          <polygon points="585,98 590,90 595,98"/>
+          <polygon points="775,118 780,110 785,118"/>
+          <polygon points="966,138 970,130 974,138"/>
+        </g>
+      </svg>
+    </div>    </div>
     <script>
       (function(){
         var io = new IntersectionObserver(function(entries){
