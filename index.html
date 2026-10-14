@@ -28,6 +28,7 @@
         }
       }
       * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       html, body { margin: 0; padding: 0; }
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
@@ -85,6 +86,34 @@
       footer { padding: 48px 0 32px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 48px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
       @media (max-width: 600px) { nav { display: none; } }
+
+      .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+      .reveal.visible { opacity: 1; transform: none; }
+      .reveal.delay-1 { transition-delay: .1s; }
+      .reveal.delay-2 { transition-delay: .2s; }
+      .reveal.delay-3 { transition-delay: .3s; }
+
+      @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(18px); }
+        to { opacity: 1; transform: none; }
+      }
+      .hero > * { animation: fade-in-up .9s cubic-bezier(.2,.7,.2,1) both; }
+      .hero .eyebrow { animation-delay: .05s; }
+      .hero h1 { animation-delay: .15s; }
+      .hero p { animation-delay: .25s; }
+      .hero-actions { animation-delay: .35s; }
+
+      .btn { transition: transform .18s ease, box-shadow .18s ease, background .18s ease, opacity .18s ease; }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+      .dl { transition: transform .18s ease, border-color .18s ease; }
+      .dl:hover { transform: translateY(-2px); }
+
+      .landscape {
+        position: fixed; left: 0; right: 0; bottom: 0; height: 24vh; min-height: 140px;
+        pointer-events: none; z-index: -1; opacity: .16; color: var(--fg);
+      }
+      @media (prefers-color-scheme: dark) { .landscape { opacity: .28; } }
+      .landscape svg { width: 100%; height: 100%; display: block; }
     </style>
   </head>
   <body>
@@ -110,21 +139,21 @@
         </section>
 
         <section class="features" id="features">
-          <div class="feature">
+          <div class="feature reveal">
             <h3>Private by design</h3>
             <p>Notes are stored locally. No accounts, no syncing, no one else reading them.</p>
           </div>
-          <div class="feature">
+          <div class="feature reveal delay-1">
             <h3>Built-in code editor</h3>
             <p>Write in Python, Rust, C++ and more, right next to your notes.</p>
           </div>
-          <div class="feature">
+          <div class="feature reveal delay-2">
             <h3>Distraction-free</h3>
             <p>A calm, minimal interface so you can focus on what you're writing.</p>
           </div>
         </section>
 
-        <section class="downloads" id="download">
+        <section class="downloads reveal" id="download">
           <h2>Download</h2>
           <p class="sub">Slate is available for all major desktop platforms. Identical features everywhere.</p>
           <div class="dl-grid">
@@ -135,10 +164,45 @@
         </section>
       </main>
 
-      <footer>
+      <footer class="reveal">
         <span>Slate — made by wtap</span>
         <span>lumen.wtap.online</span>
       </footer>
     </div>
+
+    <div class="landscape" aria-hidden="true">
+      <svg viewBox="0 0 1440 360" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 360 L0 250 L90 190 L180 250 L300 130 L420 230 L540 110 L660 210 L780 140 L900 230 L1020 160 L1140 240 L1260 170 L1440 240 L1440 360 Z" fill="currentColor" opacity=".5"/>
+        <path d="M0 360 L0 290 L120 230 L240 290 L360 200 L480 270 L600 180 L720 260 L840 200 L960 270 L1080 210 L1200 280 L1320 220 L1440 280 L1440 360 Z" fill="currentColor" opacity=".85"/>
+        <g fill="currentColor" opacity=".9">
+          <polygon points="120,285 112,310 128,310"/>
+          <polygon points="160,292 150,320 170,320"/>
+          <polygon points="260,268 250,298 270,298"/>
+          <polygon points="320,275 310,305 330,305"/>
+          <polygon points="470,260 460,290 480,290"/>
+          <polygon points="520,272 510,300 530,300"/>
+          <polygon points="610,255 600,285 620,285"/>
+          <polygon points="700,265 690,295 710,295"/>
+          <polygon points="760,275 750,305 770,305"/>
+          <polygon points="900,260 890,290 910,290"/>
+          <polygon points="980,272 970,300 990,300"/>
+          <polygon points="1100,265 1090,295 1110,295"/>
+          <polygon points="1180,278 1170,308 1190,308"/>
+          <polygon points="1280,270 1270,300 1290,300"/>
+          <polygon points="1340,278 1330,308 1350,308"/>
+        </g>
+      </svg>
+    </div>
+    <script>
+      (function(){
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+          });
+        }, {threshold: 0.12});
+        document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+      })();
+    </script>
+
   </body>
 </html>
