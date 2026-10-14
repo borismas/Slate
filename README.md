@@ -11,7 +11,7 @@ Lumen has 3 desktop version:
 
 These are all identical to each other and don't have any exclusive features.
 
-If you're interested in downloading these, Here are the links:
+If you're interested in downloading these, Here are the links: (downloads are also available on the website)
 
 - Linux: https://www.mediafire.com/folder/cf030ktmdqoq8/Lumen_Linux
 - MacOS: https://www.mediafire.com/folder/vwhkunbspigi6/Lumen_MacOS
