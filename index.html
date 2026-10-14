@@ -42,7 +42,7 @@
 
       header {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 24px 0;
+        padding: 24px 0; position: relative; z-index: 2;
       }
       .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
       .brand-mark {
@@ -53,26 +53,82 @@
       nav { display: flex; gap: 24px; font-size: 14px; color: var(--muted); }
       nav a:hover { color: var(--fg); }
 
-      .hero { padding: 80px 0 64px; }
+      .hero { padding: 96px 0 72px; position: relative; overflow: hidden; }
+      .hero .glow {
+        position: absolute; width: 520px; height: 520px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(134,59,255,.16), transparent 60%);
+        top: -140px; right: -120px; filter: blur(8px);
+        animation: drift 11s ease-in-out infinite;
+        pointer-events: none; z-index: 0;
+      }
+      .hero .glow.g2 {
+        width: 360px; height: 360px; top: 60px; left: -120px;
+        background: radial-gradient(circle, rgba(58,58,54,.10), transparent 60%);
+        animation-duration: 15s; animation-direction: reverse;
+      }
+      @media (prefers-color-scheme: dark) {
+        .hero .glow { background: radial-gradient(circle, rgba(134,59,255,.22), transparent 60%); }
+        .hero .glow.g2 { background: radial-gradient(circle, rgba(240,239,232,.08), transparent 60%); }
+      }
+      @keyframes drift {
+        0%,100% { transform: translate(0,0) scale(1); }
+        50% { transform: translate(-24px, 18px) scale(1.06); }
+      }
+      .hero > *:not(.glow) { position: relative; z-index: 1; }
       .eyebrow { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
       h1 { font-size: clamp(40px, 7vw, 72px); line-height: 1.05; margin: 0 0 24px; font-weight: 700; letter-spacing: -0.03em; }
       .hero p { font-size: 18px; color: var(--muted); max-width: 560px; margin: 0 0 36px; }
       .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
       .btn {
         display: inline-flex; align-items: center; gap: 8px;
         padding: 12px 20px; border-radius: 10px; font-size: 15px; font-weight: 500;
         border: 1px solid var(--border); background: var(--card);
-        transition: transform .15s ease, background .15s ease;
+        transition: transform .18s ease, box-shadow .18s ease, background .18s ease, opacity .18s ease;
       }
-      .btn:hover { transform: translateY(-1px); }
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.08); }
       .btn-primary { background: var(--fg); color: var(--bg); border-color: var(--fg); }
       .btn-primary:hover { opacity: 0.92; }
 
-      .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; padding: 48px 0; }
+      .showcase { padding: 24px 0 48px; }
+      .window {
+        background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0,0,0,.06); overflow: hidden;
+      }
+      .window-bar {
+        display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+        border-bottom: 1px solid var(--border); background: var(--bg);
+      }
+      .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--border); }
+      .window-body {
+        display: grid; grid-template-columns: 200px 1fr; min-height: 280px;
+      }
+      .sidebar {
+        border-right: 1px solid var(--border); padding: 16px;
+        background: var(--bg);
+      }
+      .note-row {
+        padding: 8px 10px; border-radius: 8px; font-size: 13px; color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .note-row.active { background: var(--card); color: var(--fg); font-weight: 500; }
+      .editor {
+        padding: 20px 24px; font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px; line-height: 1.7; color: var(--fg); background: var(--card);
+      }
+      .editor .comment { color: var(--muted); }
+      .editor .kw { color: #863bff; font-weight: 500; }
+      @media (max-width: 700px) {
+        .window-body { grid-template-columns: 1fr; }
+        .sidebar { display: none; }
+      }
+
+      .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; padding: 48px 0; }
       .feature {
         background: var(--card); border: 1px solid var(--border); border-radius: 14px;
-        padding: 24px;
+        padding: 22px; transition: transform .2s ease, box-shadow .2s ease;
       }
+      .feature:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.06); }
       .feature h3 { margin: 0 0 8px; font-size: 17px; }
       .feature p { margin: 0; color: var(--muted); font-size: 14px; }
 
@@ -80,8 +136,19 @@
       .downloads h2 { font-size: 24px; margin: 0 0 8px; letter-spacing: -0.01em; }
       .downloads .sub { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
       .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-      .dl { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
-      .dl:hover { border-color: var(--fg); }
+      .dl { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; transition: transform .18s ease, border-color .18s ease; }
+      .dl:hover { transform: translateY(-2px); border-color: var(--fg); }
+
+      .faq { padding: 48px 0 16px; }
+      .faq h2 { font-size: 24px; margin: 0 0 8px; letter-spacing: -0.01em; }
+      .faq .sub { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
+      .faq details { border-top: 1px solid var(--border); padding: 16px 0; }
+      .faq details:last-child { border-bottom: 1px solid var(--border); }
+      .faq summary { cursor: pointer; font-weight: 500; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+      .faq summary::-webkit-details-marker { display: none; }
+      .faq summary span { color: var(--muted); font-size: 18px; transition: transform .2s ease; }
+      details[open] summary span { transform: rotate(45deg); }
+      .faq p { color: var(--muted); margin: 10px 0 0; font-size: 14px; line-height: 1.7; }
 
       footer { padding: 48px 0 32px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 48px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
@@ -97,20 +164,16 @@
         from { opacity: 0; transform: translateY(18px); }
         to { opacity: 1; transform: none; }
       }
-      .hero > * { animation: fade-in-up .9s cubic-bezier(.2,.7,.2,1) both; }
+      .hero > *:not(.glow) { animation: fade-in-up .9s cubic-bezier(.2,.7,.2,1) both; }
       .hero .eyebrow { animation-delay: .05s; }
       .hero h1 { animation-delay: .15s; }
       .hero p { animation-delay: .25s; }
       .hero-actions { animation-delay: .35s; }
 
-      .btn { transition: transform .18s ease, box-shadow .18s ease, background .18s ease, opacity .18s ease; }
-      .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.08); }
-      .dl { transition: transform .18s ease, border-color .18s ease; }
-      .dl:hover { transform: translateY(-2px); }
-
       .landscape {
         position: fixed; left: 0; right: 0; bottom: 0; height: 24vh; min-height: 140px;
         pointer-events: none; z-index: -1; opacity: .16; color: var(--fg);
+        will-change: transform;
       }
       @media (prefers-color-scheme: dark) { .landscape { opacity: .28; } }
       .landscape svg { width: 100%; height: 100%; display: block; }
@@ -121,7 +184,9 @@
       <header>
         <a class="brand" href="#top"><span class="brand-mark">S</span><span>Slate</span></a>
         <nav>
+          <a href="#showcase">Preview</a>
           <a href="#features">Features</a>
+          <a href="#faq">FAQ</a>
           <a href="#download">Download</a>
           <a href="./app.html">Web app</a>
         </nav>
@@ -129,12 +194,38 @@
 
       <main id="top">
         <section class="hero">
+          <div class="glow"></div>
+          <div class="glow g2"></div>
           <div class="eyebrow">A quiet place for your notes</div>
           <h1>Notes,<br />without the noise.</h1>
           <p>Slate is a minimal notes app that stays out of your way. Everything is saved on your device, so your notes remain entirely yours.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#download">Get Slate ↓</a>
             <a class="btn" href="./app.html">Open web app ↗</a>
+          </div>
+        </section>
+
+        <section class="showcase reveal" id="showcase">
+          <div class="window">
+            <div class="window-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <div class="window-body">
+              <div class="sidebar">
+                <div class="note-row active">Meeting notes</div>
+                <div class="note-row">Ideas</div>
+                <div class="note-row">Project plan</div>
+                <div class="note-row">Journal</div>
+                <div class="note-row">Scratchpad</div>
+              </div>
+              <div class="editor">
+                <span class="comment"># Notes + code, side by side</span><br/>
+                def greet(name):<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> f"Hello, {name}"<br/><br/>
+                <span class="comment"># every note lives on your device</span><br/>
+                greet("Slate")<br/>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -151,6 +242,27 @@
             <h3>Distraction-free</h3>
             <p>A calm, minimal interface so you can focus on what you're writing.</p>
           </div>
+          <div class="feature reveal delay-3">
+            <h3>Works offline</h3>
+            <p>Your notes are always available, even without a connection.</p>
+          </div>
+        </section>
+
+        <section class="faq reveal" id="faq">
+          <h2>Questions</h2>
+          <p class="sub">A few things people ask before getting started.</p>
+          <details>
+            <summary>Where are my notes stored? <span>+</span></summary>
+            <p>All notes live on your own device. Nothing is uploaded or shared unless you choose to share it.</p>
+          </details>
+          <details>
+            <summary>Does Slate need an internet connection? <span>+</span></summary>
+            <p>No. You can read and write notes entirely offline. Downloads are the only step that requires a connection.</p>
+          </details>
+          <details>
+            <summary>Which platforms are supported? <span>+</span></summary>
+            <p>Linux, Windows, and macOS, with identical features on each.</p>
+          </details>
         </section>
 
         <section class="downloads reveal" id="download">
@@ -201,6 +313,21 @@
           });
         }, {threshold: 0.12});
         document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+        // parallax landscape
+        var land = document.querySelector('.landscape');
+        if (land) {
+          var ticking = false;
+          window.addEventListener('scroll', function(){
+            if (!ticking) {
+              window.requestAnimationFrame(function(){
+                var y = window.scrollY * 0.12;
+                land.style.transform = 'translateY(' + (-y) + 'px)';
+                ticking = false;
+              });
+              ticking = true;
+            }
+          }, {passive:true});
+        }
       })();
     </script>
 
